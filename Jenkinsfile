@@ -8,18 +8,17 @@ pipeline {
             post {
                 success {
                     echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/*.war'
+                    archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
-			
         }
-		stage ('Deploy to Staging'){
+        stage ('Deploy to Staging'){
             steps {
                 build job: 'Deploy-to-staging'
             }
         }
-		
-		stage ('Deploy to Production'){
+
+        stage ('Deploy to Production'){
             steps{
                 timeout(time:5, unit:'DAYS'){
                     input message:'Approve PRODUCTION Deployment?'
@@ -37,5 +36,7 @@ pipeline {
                 }
             }
         }
+
+
     }
 }
